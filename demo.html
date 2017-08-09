@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+</body>
+<script> 
+	var aQuery = function(selector, context) {
+		return  new aQuery.prototype.init();
+	},
+	//储存了常见类型的哈希表
+	class2type={},
+	//哈希表
+	core_toString = class2type.toString,
+	aQuery.fn=aQuery.prototype = {
+		constructor:aQuery,
+		init: function() {
+			return this;
+		},
+		name: function() {
+			console.log("name");
+			return this;
+		},
+		age: 20,
+		pi:function(){
+			console.log("pi");
+			return this;
+		}
+	}
+	aQuery.fn.init.prototype = aQuery.prototype; //重点 init构造器指向jquery的原型
+	aQuery.extend=aQuery.fn.extend=function(){
+        var src, copyIsArray, copy, name ,options, clone,
+            target=arguments[0]||{},  //常规用法 jQuery.extend(obj1,obj2),tagget为grguments[0]
+            i=1,
+            length=arguments.length,
+            deep=false; 
+            if(typeof target === "boolean"){  //如果第一个参数为true,的情况
+            	deep = target; 
+            	target=arguments[1] || {}; //target改为 obj1
+                //如果传送类型为boolean的第一个参数，i则从2开始
+                i=2;
+            }
+            //如果传入第一个参数是字符串或其他
+            if(typeof target !== "object"&&!jQuery.isFunction(target)){
+            	target={};
+            }
+            //如果参数的长度为1，表示为jQuery的静态方法为 $....;
+            if(length===i){
+            	target=this;
+            	--i;
+            }
+            // i是从1或2开始的
+            for(;i<length;i++){
+            	//将源的每一个属性复制到target上
+            	if((options=arguments[i])!=null){
+            		for(name in options){
+            			//src是源的值
+            			//copy是即将要复制过去的值
+            			src=target[name];
+            			copy=options[name];
+            			if(target===copy){
+            				continue;
+            			}
+            			if(deep&&copy&&(aQuery.isPlainObject(copy)||(copyIsArray==aQuery.isArray(copy)))){
+            				//数组
+            				if(copyIsArray){
+            					copyIsArray=false;
+            					clone=src&&aQuery.isArray(src)?sec:[];
+            				} 
+            				//对象
+            				else{
+            					clone=src&&aQuery.isPlainObject(src)?src:{};
+            				}
+            				//递归
+            				target[name]=aQuery.extend(deep,clone,copy);
+            			}
+            			else if(copy !== undefined){
+            				target[name] = copy;
+            			}
+            		}
+            	}
+            }
+            return target;
+	};
+	//添加一些静态方法
+	aQuery.extend({
+		  //确定js对象类型
+		   type:function(obj){
+		   	//传入null
+		   	if(obj==null){
+		   		retun String(obj);
+		   	}                                                    // core_toString=class2type.toString
+		   	return typeof obj ==="object"||typeof obj==="function"?class2type[core_toString.call(obj)]||"object":typeof obj;
+		   }
+           //测试对象是否纯粹的对象
+           //通过{}或者new Object创建
+           isPlainObject:function(obj){
+           	var key;
+           	//     //判断对象 是否有构造器函数 不是Dom和Bom对象
+           	// nodeType是DOM类型,若其他返回0
+           	// if(!obj||aQuery.type(obj)!=="object"||obj.nodeType||aQuery.isWindow(obj)){
+           	// 	return false;
+           	// }
+           }
+	});
+	//判断类型前将常见类型打表,先存一个Hash表在class2type里
+	aQuery.each("Boolean Number String Function Array Data RegExp Object Error".split(" "),function(i,name){
+		class2typep["[object " + name + "]"]=name.toLowerCase(); //将字符串变为小写
+	})
+	aQuery().pi().name();
+</script>
+</html>
